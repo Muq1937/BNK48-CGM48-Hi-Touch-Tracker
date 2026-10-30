@@ -4,7 +4,7 @@
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString("en")} ${n === 1 ? one : many}`;
 
 /** Public contact for privacy questions and account deletion. */
-export const CONTACT_EMAIL = "hightouchlog@gmail.com";
+export const CONTACT_EMAIL = "hitouchlog@gmail.com";
 
 export const t = {
   appName: "Hi-Touch Log",
