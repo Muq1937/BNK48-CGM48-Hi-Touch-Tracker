@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { applyMerge, conflictKey, isNoOp, planMerge, unresolved } from "./merge";
+import { applyMerge, conflictKey, isNoOp, planMerge, restrictToCatalog, unresolved } from "./merge";
+import { buildCatalog } from "./stats";
 import type { LogEntry, UserLog } from "./types";
 
 const at = "2026-10-01T00:00:00.000Z";
@@ -83,5 +84,27 @@ describe("applyMerge", () => {
 
   it("reports a no-op plan for identical logs", () => {
     expect(isNoOp(planMerge(account, account))).toBe(true);
+  });
+});
+
+describe("restrictToCatalog", () => {
+  it("drops entries, notes and oshi that point at unknown ids", () => {
+    const catalog = buildCatalog(
+      [
+        {
+          id: "ev",
+          name: "E",
+          date: "2026-10-01",
+          scope: "BNK48",
+          rounds: [{ id: "r1", position: 1, memberIds: [] }],
+        },
+      ],
+      [{ id: "fah", slug: "fah", nickname: "Fah", group: "BNK48", status: "active" }],
+    );
+    expect(restrictToCatalog(device, catalog)).toEqual({
+      entries: [e("r1", 3)],
+      notes: { ev: "from device" },
+      oshi: ["fah"],
+    });
   });
 });

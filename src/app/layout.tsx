@@ -3,7 +3,7 @@ import { IBM_Plex_Sans_Thai, Plus_Jakarta_Sans } from "next/font/google";
 import { LogProvider } from "@/components/LogProvider";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { sampleEvents, sampleMembers } from "@/data/fixture";
+import { getPublicCatalog } from "@/lib/publicData";
 import { t } from "@/lib/strings";
 import "./globals.css";
 
@@ -21,20 +21,21 @@ const plexThai = IBM_Plex_Sans_Thai({
 
 export const metadata: Metadata = {
   title: { default: t.appName, template: `%s · ${t.appName}` },
-  description: "A fanmade tracker for BNK48 and CGM48 high touch events.",
+  description: "A fanmade tracker for BNK48 and CGM48 Hi-Touch events.",
 };
 
 export const viewport: Viewport = {
   themeColor: "#16161A",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
-  // M1: public data comes from a typed sample fixture. M2 swaps this for Supabase reads.
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Published events and roster (cached; sample fixture until Supabase is configured).
+  const { events, members } = await getPublicCatalog();
   return (
     <html lang="en" className={`${jakarta.variable} ${plexThai.variable} antialiased`}>
       <body className="flex min-h-dvh flex-col">
-        <LogProvider events={sampleEvents} members={sampleMembers}>
-          <SiteHeader viewer={{ kind: "guest" }} />
+        <LogProvider events={events} members={members}>
+          <SiteHeader />
           {children}
           <SiteFooter />
         </LogProvider>
