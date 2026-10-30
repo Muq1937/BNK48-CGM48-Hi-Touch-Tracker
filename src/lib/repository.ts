@@ -87,6 +87,27 @@ export class LocalLogRepository implements LogRepository {
     return this.commit({ ...store, ...merged });
   }
 
+  /** When this device's log was last added to an account, if ever. */
+  async mergedAt(): Promise<string | null> {
+    return (await this.current()).mergedAt ?? null;
+  }
+
+  /** Record that this device's log was added to an account. The log itself is kept. */
+  async markMerged(): Promise<void> {
+    const store = await this.current();
+    this.commit({ ...store, mergedAt: this.clock() });
+  }
+
+  /** Remove the guest log from this device (Settings). */
+  async clear(): Promise<void> {
+    try {
+      this.storage?.removeItem(GUEST_STORE_KEY);
+    } catch {
+      // Storage blocked: nothing persisted to remove.
+    }
+    this.store = { version: 1, entries: [], notes: {}, oshi: [] };
+  }
+
   private async current(): Promise<GuestStore> {
     if (!this.store) await this.load();
     return this.store!;

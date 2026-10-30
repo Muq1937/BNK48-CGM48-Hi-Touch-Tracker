@@ -6,6 +6,7 @@
 // are never silently added together. Applying a plan *sets* counts, so running
 // the same merge twice changes nothing the second time.
 
+import type { Catalog } from "./stats";
 import type { LogEntry, UserLog } from "./types";
 
 export interface RoundConflict {
@@ -120,4 +121,17 @@ export function isNoOp(plan: MergePlan): boolean {
     plan.oshiAdds.length === 0 &&
     Object.keys(plan.noteInserts).length === 0
   );
+}
+
+/**
+ * Only the parts of a log that point at known rounds, events and members.
+ * Used before merging into an account, where unknown ids (old sample data,
+ * deleted rounds) would be rejected. The original log is left untouched.
+ */
+export function restrictToCatalog(log: UserLog, catalog: Catalog): UserLog {
+  return {
+    entries: log.entries.filter((e) => catalog.roundById.has(e.roundId)),
+    notes: Object.fromEntries(Object.entries(log.notes).filter(([id]) => catalog.eventById.has(id))),
+    oshi: log.oshi.filter((id) => catalog.memberById.has(id)),
+  };
 }

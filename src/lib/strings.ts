@@ -45,6 +45,8 @@ export const t = {
     recovered:
       "We couldn’t read your saved log, so we started a fresh one. The unreadable copy is kept in this browser under “htlog:corrupt-backup”.",
     full: "Your browser storage is full, so this wasn’t saved. Export a backup and free some space.",
+    accountLoadFailed:
+      "We couldn’t load your log from your account. Check your connection and reload the page.",
   },
 
   summary: {
@@ -113,6 +115,7 @@ export const t = {
     lineupLabel: (round: string) => `${round} lineup`,
     save: "Save to my log",
     saved: (event: string) => `Saved. ${event} is in your history.`,
+    saveFailed: "That didn’t save. Check your connection and try again.",
   },
 
   backup: {
@@ -152,9 +155,77 @@ export const t = {
   },
 
   welcome: {
-    title: "Sign in is coming soon",
-    body: "Accounts with sync and backup arrive in the next update. Until then, everything works in guest mode and stays in this browser.",
+    title: "Count every high touch with BNK48 and CGM48",
+    body: "Sign in to keep your log safe and synced, or start right away as a guest.",
+    google: "Continue with Google",
+    line: "Continue with LINE",
+    lineSoon: "Coming soon",
+    email: "Continue with email",
+    emailLabel: "Email address",
+    emailPlaceholder: "you@example.com",
+    sendLink: "Send sign-in link",
+    sending: "Sending…",
+    checkEmail: (email: string) => `Check ${email} for a sign-in link. You can close this tab.`,
+    or: "or",
     continueGuest: "Continue as guest",
+    guestNote: "No account needed. You can sign in later and keep everything you’ve logged.",
+    compareGuest: "Guest",
+    compareGuestPoints: [
+      "Saved on this device only",
+      "Back up by exporting a file",
+      "Lost if browser data is cleared",
+    ],
+    compareAccount: "Account",
+    compareAccountPoints: ["Synced on phone and computer", "Backed up automatically", "Suggest lineup fixes"],
+    notConfigured:
+      "Sign-in isn’t switched on for this site yet. Everything works in guest mode in the meantime.",
+    signedInAs: (name: string) => `You’re signed in as ${name}.`,
+    goToDashboard: "Go to dashboard",
+    error: "Sign-in didn’t work. Please try again.",
+    linkExpired: "That sign-in link has expired or was already used. Request a new one.",
+  },
+
+  merge: {
+    welcome: (name: string) => `Welcome, ${name}`,
+    found: "We found a guest log saved on this device. Want to bring it into your account?",
+    onDevice: "On this device",
+    events: "events",
+    tickets: "tickets",
+    membersMet: "members met",
+    more: (n: number) => `+${n} more`,
+    question: "What should we do with it?",
+    add: "Add to my account",
+    recommended: "Recommended",
+    addBody: "If a round is in both logs, we’ll ask which ticket count to keep, so nothing is counted twice.",
+    notNow: "Not now",
+    notNowBody: "Leave it on this device. You can add it later from Settings.",
+    continue: "Continue",
+    keepNote: "Your guest copy stays on this device until you remove it.",
+    conflictsTitle: "Some rounds are in both logs",
+    conflictsBody: "Pick which ticket count to keep for each one. Nothing is added together.",
+    keepAccount: (v: string) => `Keep account (${v})`,
+    keepDevice: (v: string) => `Keep this device (${v})`,
+    working: "Adding to your account…",
+    done: "Your guest log is in your account.",
+    failed: "We couldn’t add your guest log. Nothing was lost; try again from Settings.",
+  },
+
+  settings: {
+    title: "Settings",
+    account: "Account",
+    signedInAs: (name: string, email: string) => `Signed in as ${name} (${email})`,
+    signOut: "Sign out",
+    guestLog: "Guest log on this device",
+    guestLogSummary: (events: number, tickets: number) =>
+      `${plural(events, "event", "events")}, ${plural(tickets, "ticket", "tickets")} saved in this browser.`,
+    guestLogEmpty: "There’s no guest log on this device.",
+    mergedAt: (date: string) => `Added to your account on ${date}.`,
+    addToAccount: "Add to my account",
+    removeGuest: "Remove guest copy from this device",
+    removeConfirm:
+      "Remove the guest log from this browser? Anything not added to your account will be lost. Export a backup first if unsure.",
+    removed: "Guest copy removed from this device.",
+    signInFirst: "Sign in to manage your account.",
   },
 
   footer: {

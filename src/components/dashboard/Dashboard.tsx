@@ -11,7 +11,7 @@ import { RecentSessions } from "./RecentSessions";
 import { SummaryCards } from "./SummaryCards";
 
 export function Dashboard() {
-  const { log, catalog, mode, health, storageFull } = useLog();
+  const { log, catalog, mode, health, storageFull, loadFailed } = useLog();
 
   const derived = useMemo(
     () =>
@@ -24,7 +24,11 @@ export function Dashboard() {
   );
 
   if (!log || !derived) {
-    return (
+    return loadFailed ? (
+      <p role="alert" className="rounded-card border border-admin bg-[#FFF6DD] p-4 text-sm text-ink">
+        {t.storage.accountLoadFailed}
+      </p>
+    ) : (
       <p role="status" className="py-16 text-center text-sm text-muted">
         {t.storage.loading}
       </p>

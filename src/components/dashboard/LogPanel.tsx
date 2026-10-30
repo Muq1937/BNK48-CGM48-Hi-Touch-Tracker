@@ -55,7 +55,7 @@ export function LogPanel({ log }: { log: UserLog }) {
     } catch (error) {
       setStatus({
         kind: "error",
-        text: error instanceof StorageFullError ? t.storage.full : String(error),
+        text: error instanceof StorageFullError ? t.storage.full : t.log.saveFailed,
       });
     } finally {
       setSaving(false);

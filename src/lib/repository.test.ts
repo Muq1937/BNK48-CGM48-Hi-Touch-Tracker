@@ -64,6 +64,21 @@ describe("LocalLogRepository", () => {
     expect(storage.data.get(CORRUPT_BACKUP_KEY)).toBe("garbage");
   });
 
+  it("records mergedAt without touching the log, and clears on request", async () => {
+    const storage = new MemoryStorage();
+    const repo = new LocalLogRepository(storage, clock);
+    await repo.logEvent("e1", [{ roundId: "r1", tickets: 2 }]);
+    expect(await repo.mergedAt()).toBeNull();
+    await repo.markMerged();
+    const reloaded = new LocalLogRepository(storage, clock);
+    expect(await reloaded.mergedAt()).toBe(clock());
+    expect((await reloaded.load()).log.entries).toHaveLength(1);
+
+    await reloaded.clear();
+    expect(storage.data.has(GUEST_STORE_KEY)).toBe(false);
+    expect((await new LocalLogRepository(storage, clock).load()).log.entries).toEqual([]);
+  });
+
   it("applies a merge plan", async () => {
     const repo = new LocalLogRepository(new MemoryStorage(), clock);
     const existing = await repo.logEvent("e1", [{ roundId: "r1", tickets: 2 }]);
