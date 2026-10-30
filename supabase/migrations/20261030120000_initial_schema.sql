@@ -1,4 +1,4 @@
--- High Touch Log: initial schema (handoff §6).
+-- Hi-Touch Log: initial schema (handoff §6).
 --
 -- * Row Level Security is enabled on every table.
 -- * Admin rights come only from profiles.role, which users can never change:

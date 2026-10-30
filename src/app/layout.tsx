@@ -21,7 +21,7 @@ const plexThai = IBM_Plex_Sans_Thai({
 
 export const metadata: Metadata = {
   title: { default: t.appName, template: `%s · ${t.appName}` },
-  description: "A fanmade tracker for BNK48 and CGM48 high touch events.",
+  description: "A fanmade tracker for BNK48 and CGM48 Hi-Touch events.",
 };
 
 export const viewport: Viewport = {

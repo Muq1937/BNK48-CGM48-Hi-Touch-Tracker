@@ -1,6 +1,6 @@
-# High Touch Log
+# Hi-Touch Log
 
-A fanmade web app for BNK48 and CGM48 fans to log high touch events and see how many times they have met each member. Unofficial; not affiliated with the groups or their management.
+A fanmade web app for BNK48 and CGM48 fans to log Hi-Touch events and see how many times they have met each member. Unofficial; not affiliated with the groups or their management.
 
 A fan picks the **event**, the **rounds** they entered and how many **tickets** they used per round. One ticket = meeting every member in that round's lineup once. Counts are always derived from log entries and the current lineups, never typed by hand.
 

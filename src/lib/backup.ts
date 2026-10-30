@@ -69,5 +69,5 @@ function csvCell(value: string): string {
 }
 
 export function backupFileName(ext: "json" | "csv", now: Date): string {
-  return `high-touch-log-${now.toISOString().slice(0, 10)}.${ext}`;
+  return `hi-touch-log-${now.toISOString().slice(0, 10)}.${ext}`;
 }

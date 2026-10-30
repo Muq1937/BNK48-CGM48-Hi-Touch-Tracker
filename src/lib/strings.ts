@@ -7,7 +7,7 @@ const plural = (n: number, one: string, many: string) => `${n.toLocaleString("en
 export const CONTACT_EMAIL = "hightouchlog@gmail.com";
 
 export const t = {
-  appName: "High Touch Log",
+  appName: "Hi-Touch Log",
   fanmade: "Fanmade",
   groups: "BNK48 · CGM48",
 
@@ -27,7 +27,7 @@ export const t = {
   },
 
   hero: {
-    title: "Your high touch history",
+    title: "Your Hi-Touch history",
     body: "Pick the event, the rounds you entered and how many tickets you used. We count every member for you.",
     cta: "Log an event",
   },
@@ -125,7 +125,7 @@ export const t = {
     importTitle: "Import a backup",
     chooseFile: "Choose a backup file (.json)",
     badJson: "That file isn’t a valid backup (not JSON).",
-    badFormat: "That file isn’t a High Touch Log backup, or it’s from a newer version.",
+    badFormat: "That file isn’t a Hi-Touch Log backup, or it’s from a newer version.",
     preview: (inserts: number, unchanged: number, conflicts: number) =>
       `${plural(inserts, "new round", "new rounds")}, ${plural(unchanged, "round", "rounds")} already the same, ${plural(conflicts, "difference", "differences")} to decide.`,
     nothingNew: "Everything in this file is already in your log.",
@@ -158,7 +158,7 @@ export const t = {
   },
 
   welcome: {
-    title: "Count every high touch with BNK48 and CGM48",
+    title: "Count every Hi-Touch with BNK48 and CGM48",
     body: "Sign in to keep your log safe and synced, or start right away as a guest.",
     google: "Continue with Google",
     line: "Continue with LINE",
@@ -237,7 +237,7 @@ export const t = {
 
   footer: {
     disclaimer:
-      "High Touch Log is an unofficial fan project. It is not affiliated with BNK48, CGM48 or their management. Member names and photos belong to their owners.",
+      "Hi-Touch Log is an unofficial fan project. It is not affiliated with BNK48, CGM48 or their management. Member names and photos belong to their owners.",
     privacy: "Privacy policy",
     guestStorage: "Guest mode: saved on this device",
     syncedStorage: "Synced to your account",
@@ -247,7 +247,7 @@ export const t = {
     title: "Privacy policy",
     updated: "Last updated 30 October 2026",
     intro:
-      "High Touch Log is an unofficial fan project for counting your BNK48 and CGM48 high touch meetings. This page explains what we store, why, and how to get it deleted. We only collect what the site needs to work.",
+      "Hi-Touch Log is an unofficial fan project for counting your BNK48 and CGM48 Hi-Touch meetings. This page explains what we store, why, and how to get it deleted. We only collect what the site needs to work.",
     sections: [
       {
         id: "guest",

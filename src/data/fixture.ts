@@ -43,7 +43,7 @@ const m = (slug: string) => {
 export const sampleEvents: PublicEvent[] = [
   {
     id: "sample-event-3",
-    name: "Sample Joint High Touch",
+    name: "Sample Joint Hi-Touch",
     date: "2026-10-18",
     venue: "Sample Convention Hall",
     city: "Bangkok",
@@ -56,7 +56,7 @@ export const sampleEvents: PublicEvent[] = [
   },
   {
     id: "sample-event-2",
-    name: "Sample CGM48 High Touch",
+    name: "Sample CGM48 Hi-Touch",
     date: "2026-09-20",
     venue: "Sample Mall Hall",
     city: "Chiang Mai",
@@ -68,7 +68,7 @@ export const sampleEvents: PublicEvent[] = [
   },
   {
     id: "sample-event-1",
-    name: "Sample BNK48 High Touch",
+    name: "Sample BNK48 Hi-Touch",
     date: "2026-08-16",
     venue: "Sample Exhibition Centre",
     city: "Bangkok",

@@ -17,9 +17,9 @@ insert into public.members (id, slug, nickname, group_code, status) values
 on conflict (id) do nothing;
 
 insert into public.events (id, name, event_date, venue, city, scope, status) values
-  ('5e000000-0000-4000-8000-000000000001', 'Sample BNK48 High Touch', '2026-08-16', 'Sample Exhibition Centre', 'Bangkok',    'BNK48', 'published'),
-  ('5e000000-0000-4000-8000-000000000002', 'Sample CGM48 High Touch', '2026-09-20', 'Sample Mall Hall',         'Chiang Mai', 'CGM48', 'published'),
-  ('5e000000-0000-4000-8000-000000000003', 'Sample Joint High Touch', '2026-10-18', 'Sample Convention Hall',   'Bangkok',    'JOINT', 'published')
+  ('5e000000-0000-4000-8000-000000000001', 'Sample BNK48 Hi-Touch', '2026-08-16', 'Sample Exhibition Centre', 'Bangkok',    'BNK48', 'published'),
+  ('5e000000-0000-4000-8000-000000000002', 'Sample CGM48 Hi-Touch', '2026-09-20', 'Sample Mall Hall',         'Chiang Mai', 'CGM48', 'published'),
+  ('5e000000-0000-4000-8000-000000000003', 'Sample Joint Hi-Touch', '2026-10-18', 'Sample Convention Hall',   'Bangkok',    'JOINT', 'published')
 on conflict (id) do nothing;
 
 insert into public.rounds (id, event_id, position) values
@@ -34,7 +34,7 @@ insert into public.rounds (id, event_id, position) values
 on conflict (id) do nothing;
 
 insert into public.round_members (round_id, member_id) values
-  -- Sample BNK48 High Touch
+  -- Sample BNK48 Hi-Touch
   ('5b000000-0000-4000-8000-000000000101', '5a000000-0000-4000-8000-000000000001'),
   ('5b000000-0000-4000-8000-000000000101', '5a000000-0000-4000-8000-000000000002'),
   ('5b000000-0000-4000-8000-000000000101', '5a000000-0000-4000-8000-000000000003'),
@@ -43,12 +43,12 @@ insert into public.round_members (round_id, member_id) values
   ('5b000000-0000-4000-8000-000000000103', '5a000000-0000-4000-8000-000000000006'),
   ('5b000000-0000-4000-8000-000000000103', '5a000000-0000-4000-8000-000000000001'),
   ('5b000000-0000-4000-8000-000000000103', '5a000000-0000-4000-8000-000000000004'),
-  -- Sample CGM48 High Touch
+  -- Sample CGM48 Hi-Touch
   ('5b000000-0000-4000-8000-000000000201', '5a000000-0000-4000-8000-000000000007'),
   ('5b000000-0000-4000-8000-000000000201', '5a000000-0000-4000-8000-000000000008'),
   ('5b000000-0000-4000-8000-000000000202', '5a000000-0000-4000-8000-000000000009'),
   ('5b000000-0000-4000-8000-000000000202', '5a000000-0000-4000-8000-000000000010'),
-  -- Sample Joint High Touch
+  -- Sample Joint Hi-Touch
   ('5b000000-0000-4000-8000-000000000301', '5a000000-0000-4000-8000-000000000001'),
   ('5b000000-0000-4000-8000-000000000301', '5a000000-0000-4000-8000-000000000007'),
   ('5b000000-0000-4000-8000-000000000301', '5a000000-0000-4000-8000-000000000003'),
