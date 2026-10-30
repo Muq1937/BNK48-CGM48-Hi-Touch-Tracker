@@ -27,6 +27,55 @@ describe("LocalLogRepository", () => {
     expect(reloaded.log).toEqual(log);
   });
 
+  it("corrects a logged event: sets counts, 0 removes a round, note replaced or cleared", async () => {
+    const storage = new MemoryStorage();
+    const repo = new LocalLogRepository(storage, () => "2026-10-30T00:00:00.000Z");
+    await repo.logEvent(
+      "e1",
+      [
+        { roundId: "r1", tickets: 5 },
+        { roundId: "r2", tickets: 2 },
+        { roundId: "r3", tickets: 1 },
+      ],
+      "first",
+    );
+    await repo.logEvent("e2", [{ roundId: "x1", tickets: 4 }]);
+
+    const later = new LocalLogRepository(storage, () => "2026-10-31T00:00:00.000Z");
+    const log = await later.editEvent(
+      "e1",
+      [
+        { roundId: "r1", tickets: 2 }, // lowered, not added
+        { roundId: "r2", tickets: 0 }, // removed
+        { roundId: "r3", tickets: 1 }, // unchanged
+        { roundId: "r4", tickets: 3 }, // newly added
+      ],
+      "fixed",
+    );
+    const byRound = Object.fromEntries(log.entries.map((e) => [e.roundId, e]));
+    expect(Object.keys(byRound).sort()).toEqual(["r1", "r3", "r4", "x1"]);
+    expect(byRound.r1).toMatchObject({ tickets: 2, updatedAt: "2026-10-31T00:00:00.000Z" });
+    expect(byRound.r3.updatedAt).toBe("2026-10-30T00:00:00.000Z");
+    expect(byRound.r4).toMatchObject({ eventId: "e1", tickets: 3 });
+    expect(byRound.x1.tickets).toBe(4); // other events untouched
+    expect(log.notes).toEqual({ e1: "fixed" });
+
+    const removed = await later.editEvent(
+      "e1",
+      ["r1", "r3", "r4"].map((roundId) => ({ roundId, tickets: 0 })),
+      "",
+    );
+    expect(removed.entries.map((e) => e.roundId)).toEqual(["x1"]);
+    expect(removed.notes).toEqual({});
+    expect((await new LocalLogRepository(storage, clock).load()).log).toEqual(removed);
+  });
+
+  it("rejects invalid ticket counts when editing", async () => {
+    const repo = new LocalLogRepository(new MemoryStorage(), clock);
+    await expect(repo.editEvent("e1", [{ roundId: "r1", tickets: -1 }])).rejects.toBeInstanceOf(RangeError);
+    await expect(repo.editEvent("e1", [{ roundId: "r1", tickets: 1.5 }])).rejects.toBeInstanceOf(RangeError);
+  });
+
   it("toggles oshi", async () => {
     const repo = new LocalLogRepository(new MemoryStorage(), clock);
     await repo.setOshi("fah", true);

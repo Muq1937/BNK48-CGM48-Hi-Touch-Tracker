@@ -1,10 +1,13 @@
 import type { NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/proxy";
 
-// Next 16's replacement for middleware.ts. Only refreshes the auth session for
-// now; the /admin role check (M3) is enforced server-side next to the data too.
+// Next 16's replacement for middleware.ts. Refreshes the auth session on every
+// request, and answers 404 on /admin for anyone who isn't an admin. That role
+// check is repeated in the admin layout, in every admin action and by RLS.
 export async function proxy(request: NextRequest) {
-  return updateSession(request);
+  const { pathname } = request.nextUrl;
+  const adminOnly = pathname === "/admin" || pathname.startsWith("/admin/");
+  return updateSession(request, { adminOnly });
 }
 
 export const config = {

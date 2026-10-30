@@ -34,6 +34,7 @@ interface LogContextValue {
   /** Set when the account log could not be loaded. */
   loadFailed: boolean;
   logEvent: LogRepository["logEvent"];
+  editEvent: LogRepository["editEvent"];
   setOshi: LogRepository["setOshi"];
   merge: (plan: MergePlan, resolutions: Resolutions) => Promise<UserLog>;
   signOut: () => Promise<void>;
@@ -151,6 +152,7 @@ export function LogProvider({
       storageFull,
       loadFailed,
       logEvent: (eventId, rounds, note) => run((r) => r.logEvent(eventId, rounds, note)),
+      editEvent: (eventId, rounds, note) => run((r) => r.editEvent(eventId, rounds, note)),
       setOshi: (memberId, on) => run((r) => r.setOshi(memberId, on)),
       merge: (plan, resolutions) => run((r) => r.merge(plan, resolutions)),
       signOut,
