@@ -152,6 +152,7 @@ export const t = {
   },
 
   memberPage: {
+    loading: "Loading…",
     back: "Back to dashboard",
     timesMet: "Times met",
     events: "Events",

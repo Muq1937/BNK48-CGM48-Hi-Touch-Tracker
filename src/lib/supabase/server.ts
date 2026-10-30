@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 import type { Database } from "./database.types";
 import { SUPABASE_PUBLIC_KEY, SUPABASE_URL, supabaseConfigured } from "./env";
 
@@ -10,6 +11,10 @@ import { SUPABASE_PUBLIC_KEY, SUPABASE_URL, supabaseConfigured } from "./env";
  */
 export async function createClient() {
   if (!supabaseConfigured) return null;
+  // Supabase checks token expiry with Date.now(), which Next refuses during a
+  // prerender (including partial prefetches that can see cookies). Wait for the
+  // real request so session reads always happen at request time.
+  await connection();
   const cookieStore = await cookies();
   return createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookies: {
