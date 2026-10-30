@@ -83,5 +83,6 @@ Business logic in `src/lib` is framework-free and unit tested. UI code only talk
 
 - **Next.js 16** with Cache Components and Partial Prefetching on. `middleware.ts` is now `src/proxy.ts`; `params` is a Promise; client components are prerendered, so localStorage is only read after mount; session reads sit inside `<Suspense>`. Bundled docs: `node_modules/next/dist/docs/`.
 - **Supabase keys**: uses the current `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (the legacy anon key name also works). Supabase is retiring anon/service_role keys by the end of 2026.
+- **Email sign-in** is hidden unless `NEXT_PUBLIC_EMAIL_SIGN_IN=true`. Supabase's built-in mailer only sends to the project's team (about 2 emails an hour), so set up custom SMTP (Authentication → Emails) before turning it on. Google is the only sign-in method until then; the handoff also lists email and LINE.
 - **Member photos** are off unless `NEXT_PUBLIC_SHOW_MEMBER_PHOTOS=true`. When on, they load straight from the official source with a plain `<img>` (no proxy, no image optimiser).
 - **Sample data**: the fixture and seed names (Fah, Mint, …) and events are placeholders, not real rosters.

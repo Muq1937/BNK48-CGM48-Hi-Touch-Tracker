@@ -7,7 +7,7 @@ import { Suspense, useId, useState } from "react";
 import { useLog } from "@/components/LogProvider";
 import { t } from "@/lib/strings";
 import { createClient } from "@/lib/supabase/client";
-import { supabaseConfigured } from "@/lib/supabase/env";
+import { EMAIL_SIGN_IN, supabaseConfigured } from "@/lib/supabase/env";
 
 /** Where the auth provider sends the user back to; the merge screen decides what's next. */
 function callbackUrl() {
@@ -95,41 +95,42 @@ export function WelcomeView() {
           </span>
         </button>
 
-        {!showEmail ? (
-          <button
-            type="button"
-            onClick={() => setShowEmail(true)}
-            disabled={off}
-            className={`${big} bg-ink text-white`}
-          >
-            <Mail size={18} aria-hidden="true" />
-            {t.welcome.email}
-          </button>
-        ) : (
-          <form onSubmit={sendLink} className="grid gap-2 rounded-[14px] border border-line bg-surface p-3">
-            <label htmlFor={emailId} className="text-sm font-semibold">
-              {t.welcome.emailLabel}
-            </label>
-            <input
-              id={emailId}
-              type="email"
-              required
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t.welcome.emailPlaceholder}
-              className="min-h-11 rounded-[10px] border border-line-strong bg-surface px-3 text-[15px] placeholder:text-muted"
-            />
+        {EMAIL_SIGN_IN &&
+          (!showEmail ? (
             <button
-              type="submit"
-              disabled={status === "sending" || status === "sent"}
+              type="button"
+              onClick={() => setShowEmail(true)}
+              disabled={off}
               className={`${big} bg-ink text-white`}
             >
-              {status === "sending" ? t.welcome.sending : t.welcome.sendLink}
+              <Mail size={18} aria-hidden="true" />
+              {t.welcome.email}
             </button>
-          </form>
-        )}
+          ) : (
+            <form onSubmit={sendLink} className="grid gap-2 rounded-[14px] border border-line bg-surface p-3">
+              <label htmlFor={emailId} className="text-sm font-semibold">
+                {t.welcome.emailLabel}
+              </label>
+              <input
+                id={emailId}
+                type="email"
+                required
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t.welcome.emailPlaceholder}
+                className="min-h-11 rounded-[10px] border border-line-strong bg-surface px-3 text-[15px] placeholder:text-muted"
+              />
+              <button
+                type="submit"
+                disabled={status === "sending" || status === "sent"}
+                className={`${big} bg-ink text-white`}
+              >
+                {status === "sending" ? t.welcome.sending : t.welcome.sendLink}
+              </button>
+            </form>
+          ))}
 
         <p
           role={status === "error" ? "alert" : "status"}
