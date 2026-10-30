@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* Design tokens (handoff §4). Raw values live here; Tailwind utilities map to them below. */
+:root {
+  --ink: #16161a; /* text, dark header, primary buttons */
+  --ground: #f4f3ef; /* page background */
+  --surface: #ffffff; /* cards */
+  --line: #e2e0da; /* card borders */
+  --line-strong: #d4d2cb; /* input borders */
+  --track: #eeede8; /* progress tracks, row dividers */
+  --muted: #5b5b63; /* secondary text (4.5:1 on ground and surface) */
+  --body-2: #4a4a52;
+
+  /* BNK48 — Orchid */
+  --bnk-accent: #8a3d86;
+  --bnk-tint: #f6eaf4;
+  --bnk-bright: #c997c1; /* decorative only, never behind text */
+
+  /* CGM48 — Mint */
+  --cgm-accent: #1e6e68;
+  --cgm-tint: #e1f3f1;
+  --cgm-bright: #5fb3ac; /* decorative only */
+
+  --admin: #ffd166;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-track: var(--track);
+  --color-muted: var(--muted);
+  --color-body-2: var(--body-2);
+  --color-bnk-accent: var(--bnk-accent);
+  --color-bnk-tint: var(--bnk-tint);
+  --color-bnk-bright: var(--bnk-bright);
+  --color-cgm-accent: var(--cgm-accent);
+  --color-cgm-tint: var(--cgm-tint);
+  --color-cgm-bright: var(--cgm-bright);
+  --color-admin: var(--admin);
+
+  --font-sans: var(--font-jakarta), var(--font-plex-thai), system-ui, sans-serif;
+
+  --radius-card: 14px;
+  --radius-control: 10px;
+}
+
+html {
+  background: var(--ground);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Ticket-stub perforation: dashed line with half-circle notches at both ends. */
+.perforation {
+  position: relative;
+  border-top: 2px dashed var(--line);
+}
+.perforation::before,
+.perforation::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--ground);
+  border: 1px solid var(--line);
+}
+.perforation::before {
+  left: -25px;
+  clip-path: inset(0 0 0 50%);
+}
+.perforation::after {
+  right: -25px;
+  clip-path: inset(0 50% 0 0);
+}
