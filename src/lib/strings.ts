@@ -3,6 +3,9 @@
 
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString("en")} ${n === 1 ? one : many}`;
 
+/** Public contact for privacy questions and account deletion. */
+export const CONTACT_EMAIL = "hightouchlog@gmail.com";
+
 export const t = {
   appName: "High Touch Log",
   fanmade: "Fanmade",
@@ -183,6 +186,8 @@ export const t = {
     goToDashboard: "Go to dashboard",
     error: "Sign-in didn’t work. Please try again.",
     linkExpired: "That sign-in link has expired or was already used. Request a new one.",
+    privacyNote: "What we store and how to delete it:",
+    privacyLink: "Privacy policy",
   },
 
   merge: {
@@ -226,13 +231,103 @@ export const t = {
       "Remove the guest log from this browser? Anything not added to your account will be lost. Export a backup first if unsure.",
     removed: "Guest copy removed from this device.",
     signInFirst: "Sign in to manage your account.",
+    deleteAccount: "Want your account deleted?",
+    deleteAccountLink: "Here’s how",
   },
 
   footer: {
     disclaimer:
       "High Touch Log is an unofficial fan project. It is not affiliated with BNK48, CGM48 or their management. Member names and photos belong to their owners.",
+    privacy: "Privacy policy",
     guestStorage: "Guest mode: saved on this device",
     syncedStorage: "Synced to your account",
+  },
+
+  privacy: {
+    title: "Privacy policy",
+    updated: "Last updated 30 October 2026",
+    intro:
+      "High Touch Log is an unofficial fan project for counting your BNK48 and CGM48 high touch meetings. This page explains what we store, why, and how to get it deleted. We only collect what the site needs to work.",
+    sections: [
+      {
+        id: "guest",
+        heading: "If you use guest mode",
+        body: [
+          "Your log is saved in your browser’s storage on this device and isn’t sent to us. Clearing your browser data deletes it, so export a backup if you want to keep it.",
+        ],
+      },
+      {
+        id: "account",
+        heading: "If you sign in",
+        body: ["We store:"],
+        items: [
+          "Your email address and a display name (your Google name, or the start of your email address).",
+          "If you continue with Google: the name, email address, profile picture link and account ID that Google shares with us.",
+          "Your log: the events and rounds you entered, ticket counts, notes and your oshi list.",
+          "Lineup fixes you suggest, once that feature opens.",
+          "Sign-in records, such as when you last signed in.",
+        ],
+      },
+      {
+        id: "use",
+        heading: "How we use it",
+        body: [
+          "Only to run the site: to sign you in, keep your log in sync between devices and show your counts. We don’t sell your data, show ads, or use tracking or analytics tools.",
+        ],
+      },
+      {
+        id: "access",
+        heading: "Who can see it",
+        items: [
+          "Your log, notes and oshi list are private to your account. Other users can’t see them, and neither can the site’s admins through the app.",
+          "Admins can see lineup suggestions and which account sent them.",
+          "The person who runs the site can open the database directly. They only look at personal data to fix a problem or to handle your request.",
+        ],
+      },
+      {
+        id: "services",
+        heading: "Services we use",
+        body: ["These providers run parts of the site for us:"],
+        items: [
+          "Supabase: database, sign-in and sign-in emails. Your data is stored in Singapore.",
+          "Vercel: website hosting. Requests may be handled in other countries, including the United States.",
+          "Google: only if you choose “Continue with Google”.",
+        ],
+        after: [
+          "They keep short-lived technical logs, such as IP address, browser type and request time, to run and protect their services.",
+        ],
+      },
+      {
+        id: "cookies",
+        heading: "Cookies and storage",
+        body: [
+          "We use a cookie to keep you signed in, and your browser’s storage for the guest log. There are no advertising or tracking cookies.",
+        ],
+      },
+      {
+        id: "your-data",
+        heading: "Getting a copy or deleting your data",
+        items: [
+          "Remove the guest log from a device at any time in Settings.",
+          "Email us to get a copy of your data, correct it, or delete your account. Deleting your account also deletes your log, notes and oshi list.",
+          "We reply within 30 days. Copies in our providers’ backups and logs can take a little longer to expire.",
+        ],
+      },
+      {
+        id: "children",
+        heading: "Children",
+        body: ["If you’re under 20, please check with a parent or guardian before creating an account."],
+      },
+      {
+        id: "changes",
+        heading: "Changes",
+        body: [
+          "If we change this policy, we’ll update the date at the top. For important changes, we’ll also tell signed-in users in the app.",
+        ],
+      },
+    ],
+    contactHeading: "Contact",
+    contactBody: "Questions or requests about your data:",
   },
 } as const;
 

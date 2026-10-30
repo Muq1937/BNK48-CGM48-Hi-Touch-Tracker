@@ -159,6 +159,12 @@ export function WelcomeView() {
           titleClass="text-bnk-accent"
         />
       </div>
+      <p className="mt-4 text-center text-xs text-muted">
+        {t.welcome.privacyNote}{" "}
+        <Link href="/privacy" className="font-semibold text-body-2 underline underline-offset-2">
+          {t.welcome.privacyLink}
+        </Link>
+      </p>
     </main>
   );
 }

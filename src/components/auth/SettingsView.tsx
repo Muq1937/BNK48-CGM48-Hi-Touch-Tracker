@@ -64,6 +64,12 @@ export function SettingsView() {
             <button type="button" onClick={onSignOut} className={`${button} mt-3 border border-line-strong`}>
               {t.settings.signOut}
             </button>
+            <p className="mt-3 text-sm text-body-2">
+              {t.settings.deleteAccount}{" "}
+              <Link href="/privacy#your-data" className="font-bold underline underline-offset-2">
+                {t.settings.deleteAccountLink}
+              </Link>
+            </p>
           </>
         ) : (
           <p className="mt-1 text-sm text-body-2">
