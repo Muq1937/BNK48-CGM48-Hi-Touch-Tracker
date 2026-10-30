@@ -3,10 +3,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "./database.types";
 import { SUPABASE_PUBLIC_KEY, SUPABASE_URL, supabaseConfigured } from "./env";
 
-/** Refreshes the Supabase session cookie on each request (from Supabase's Next.js guide). */
-export async function updateSession(request: NextRequest) {
+/**
+ * Refreshes the Supabase session cookie on each request (from Supabase's Next.js guide).
+ * With `adminOnly`, anyone who isn't an admin gets the regular 404 page instead.
+ */
+export async function updateSession(request: NextRequest, { adminOnly = false } = {}) {
   let response = NextResponse.next({ request });
-  if (!supabaseConfigured) return response;
+  if (!supabaseConfigured) return adminOnly ? notFound(request, response) : response;
 
   const supabase = createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookies: {
@@ -24,8 +27,27 @@ export async function updateSession(request: NextRequest) {
   });
 
   // Do not run code between createServerClient and getClaims(): it refreshes the token.
-  await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+
+  if (adminOnly) {
+    // Optimistic check; the admin layout and RLS check again next to the data.
+    const userId = data?.claims?.sub;
+    const { data: profile } = userId
+      ? await supabase.from("profiles").select("role").eq("id", userId).maybeSingle()
+      : { data: null };
+    if (profile?.role !== "admin") return notFound(request, response);
+  }
 
   // Return this response as-is so the refreshed cookies and headers reach the browser.
+  return response;
+}
+
+/** Render the app's 404 (no such route) while keeping any refreshed session cookies. */
+function notFound(request: NextRequest, sessionResponse: NextResponse) {
+  const response = NextResponse.rewrite(new URL("/_admin-not-found", request.url));
+  sessionResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
+  sessionResponse.headers.forEach((value, key) => {
+    if (key.toLowerCase() === "cache-control") response.headers.set(key, value);
+  });
   return response;
 }

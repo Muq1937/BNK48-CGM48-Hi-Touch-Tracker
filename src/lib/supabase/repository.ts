@@ -30,6 +30,16 @@ export class SupabaseLogRepository implements LogRepository {
     return this.fetchLog();
   }
 
+  async editEvent(eventId: string, rounds: { roundId: string; tickets: number }[], note?: string) {
+    const { error } = await this.db.rpc("set_event_log", {
+      p_event_id: eventId,
+      p_rounds: rounds.map((r) => ({ round_id: r.roundId, tickets: r.tickets })),
+      p_note: note ?? null,
+    });
+    if (error) throw error;
+    return this.fetchLog();
+  }
+
   async setOshi(memberId: string, on: boolean) {
     const { error } = on
       ? await this.db

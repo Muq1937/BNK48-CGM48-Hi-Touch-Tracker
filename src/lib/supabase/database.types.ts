@@ -195,6 +195,18 @@ export type Database = {
         Args: { p_event_id: string; p_rounds: Json; p_note?: string | null };
         Returns: undefined;
       };
+      set_event_log: {
+        Args: { p_event_id: string; p_rounds: Json; p_note?: string | null };
+        Returns: undefined;
+      };
+      save_event: {
+        Args: { p_event: Json };
+        Returns: string;
+      };
+      admin_log_usage: {
+        Args: Record<string, never>;
+        Returns: { event_id: string; round_id: string | null; fans: number }[];
+      };
     };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };

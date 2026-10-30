@@ -8,6 +8,7 @@ import {
   addTickets,
   readGuestStore,
   setNote,
+  setTickets,
   toUserLog,
   toggleOshi,
   writeGuestStore,
@@ -24,6 +25,11 @@ export interface LogRepository {
   load(): Promise<{ log: UserLog; health: StorageHealth }>;
   /** Adds tickets to each round (existing entries grow). A non-undefined note replaces the event's note. */
   logEvent(eventId: string, rounds: { roundId: string; tickets: number }[], note?: string): Promise<UserLog>;
+  /**
+   * Corrects an event already logged: sets (never adds) each listed round's tickets, and 0
+   * removes that round. A non-undefined note replaces the event's note ("" removes it).
+   */
+  editEvent(eventId: string, rounds: { roundId: string; tickets: number }[], note?: string): Promise<UserLog>;
   setOshi(memberId: string, on: boolean): Promise<UserLog>;
   /** Apply a merge plan (from an import or a guest log) with the user's conflict choices. */
   merge(plan: MergePlan, resolutions: Resolutions): Promise<UserLog>;
@@ -72,6 +78,23 @@ export class LocalLogRepository implements LogRepository {
         rounds.map((r) => ({ ...r, eventId })),
         now,
       ),
+      notes: note === undefined ? store.notes : setNote(store.notes, eventId, note),
+    });
+  }
+
+  async editEvent(eventId: string, rounds: { roundId: string; tickets: number }[], note?: string) {
+    const store = await this.current();
+    const now = this.clock();
+    let entries = store.entries;
+    for (const { roundId, tickets } of rounds) {
+      if (!Number.isInteger(tickets) || tickets < 0) throw new RangeError(`Invalid ticket count: ${tickets}`);
+      // Leave untouched rounds alone so their updatedAt stays meaningful.
+      if ((entries.find((e) => e.roundId === roundId)?.tickets ?? 0) === tickets) continue;
+      entries = setTickets(entries, { eventId, roundId, tickets }, now);
+    }
+    return this.commit({
+      ...store,
+      entries,
       notes: note === undefined ? store.notes : setNote(store.notes, eventId, note),
     });
   }
